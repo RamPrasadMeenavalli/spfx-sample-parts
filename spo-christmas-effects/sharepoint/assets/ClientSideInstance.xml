@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+    <ClientSideComponentInstance
+        Title="ChristmasEffects"
+        Location="ClientSideExtension.ApplicationCustomizer"
+        ComponentId="53581c1e-541b-4b71-8f4f-64ab60eca105"
+        Properties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+    </ClientSideComponentInstance>
+</Elements>

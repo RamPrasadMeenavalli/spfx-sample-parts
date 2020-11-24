@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "christmas-effects-application-customizer": {
+      "components": [
+        {
+          "entrypoint": "./lib/extensions/christmasEffects/ChristmasEffectsApplicationCustomizer.js",
+          "manifest": "./src/extensions/christmasEffects/ChristmasEffectsApplicationCustomizer.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ChristmasEffectsApplicationCustomizerStrings": "lib/extensions/christmasEffects/loc/{locale}.js"
+  }
+}

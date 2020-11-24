@@ -1,0 +1,407 @@
+$size: 200px;
+$leaf-color: #146B3A;
+$trunk-color: #855726;
+$bg: #0C1E42;
+$red: #B3000C;
+
+@mixin xtree($size) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: $size/-2;
+    margin-left: $size/-2;
+    //---------------------------------
+    width: $size;
+    height: $size;
+    position: relative;
+    border-radius: 50%;
+    // background-color: $bg;
+    background-image:
+    // decoration
+    radial-gradient(circle at 50% 18%, #BB2528 3%, transparent 3.5%),
+    // top
+    linear-gradient(60deg, darken($leaf-color,0%) 8%, transparent 8.5%),
+    linear-gradient(-60deg, darken($leaf-color,1.5%) 8%, transparent 8.5%),
+    // middle
+    linear-gradient(60deg, darken($leaf-color,3%) 10%, transparent 10.5%),
+    linear-gradient(-60deg, darken($leaf-color,4.5%) 10%, transparent 10.5%),
+    // bottom
+    linear-gradient(60deg, darken($leaf-color,6%) 12%, transparent 12.5%),
+    linear-gradient(-60deg, darken($leaf-color,7.5%) 12%, transparent 12.5%),
+    // trunk
+    linear-gradient(80deg, darken($trunk-color,0%) 5%,  transparent 5.5%),
+    linear-gradient(-80deg, darken($trunk-color,1.5%) 5%, transparent 5.5%);
+    background-position:
+    // decoration
+    0 0,
+    // leaves-top
+    $size/2 $size/2.5, $size/2 $size/2.5,
+    // leaves-middle
+    $size/2 $size/1.8, $size/2 $size/1.8,
+    // leaves-bottom
+    $size/2 $size/1.4, $size/2 $size/1.4,
+    // trunk
+    $size/2 $size/1.25, $size/2 $size/1.25;
+    
+    // snow -----
+    &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    background-image:
+    radial-gradient(circle at 30% 30%, #fff 1.5%, transparent 2.5%),
+    radial-gradient(circle at 80% 70%, #fff 1.5%, transparent 2.5%),
+    radial-gradient(circle at 30% 50%, #fff 1%, transparent 2%),
+    radial-gradient(circle at 70% 85%, #fff 1%, transparent 2%);
+    background-size: 100% 100%, 100% 100%, 50% 100%, 50% 50%;
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    animation: snow 6s linear infinite forwards;
+    @keyframes snow {
+    100% {
+    background-position: 0px $size, 0 $size, 0px $size, 0px $size;
+    }
+    }
+    }
+}    
+
+
+.tree{
+    // position: absolute;
+    // bottom: 60px;
+    // right: 180px;
+    height: 150px;
+    z-index: 999999;
+    display: flex;
+    overflow: hidden;
+    background-color: $bg;
+
+    .button{
+        background-color: $red;
+        color: #fff;
+        position: absolute;
+        right: 0px;
+        bottom: 120px;
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+        line-height: 25px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .christmas1 {
+        @include xtree(150px);
+        z-index: 9;
+        top: 70%;
+        left: 90%;
+    }
+    .christmas2 {
+        @include xtree(100px);
+        left:86.5%;
+        top: 73%;
+    }
+    .christmas3 {
+        @include xtree(135px);
+        left:85%;
+        top: 72%;
+    }
+
+    .santa{
+        height: 100px;
+        margin-top: 50px;
+        position: absolute;
+    }
+}
+
+
+	// VARIABLES
+
+	$small: 300px;
+	$medium: 600px;
+	$large: 900px;
+
+	// MIXINS
+
+	@mixin prefixr($property, $value, $prefixes: (webkit, moz, ms, o) ) {
+      @each $prefix in $prefixes {
+        -#{$prefix}-#{$property}: #{$value};
+      }
+      #{$property}: #{$value};
+	}
+
+	@mixin whiteSpaceReset() {
+		  font-size: 0;
+	}
+
+	@mixin keyframes($name) {
+	  @-webkit-keyframes #{$name} {
+	    @content;
+	  }
+	  @-moz-keyframes #{$name} {
+	    @content;
+	  }
+	  @-ms-keyframes #{$name} {
+	    @content;
+	  }
+	  @keyframes #{$name} {
+	    @content;
+	  }
+	}
+
+	@mixin ribbon($color: #e74c3c, $textColor: white, $size: 30px, $ribbonPosition: bottom) {
+
+      		// if the direction of the ribbon is neither "bottom" or "top", set the position to "bottom"
+      @if ($ribbonPosition != bottom and $ribbonPosition != top) {
+        $ribbonPosition: bottom;
+      }
+
+      @if ($ribbonPosition == bottom) {
+          //@include translate(30px);
+          @include prefixr(transform, translateY(30px));
+      }
+      @else {
+          @include prefixr(transform, translateY(-30px));
+      }
+
+      -webkit-animation: fadeIn .7s ease-in forwards;
+      animation: fadeIn .7s ease-in forwards;
+
+      span {
+        width: 50%;
+        position: relative;
+        display: block;
+        background: $color;
+        color: $textColor;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        min-width: 160px;
+        height: $size*2;
+        line-height: $size*2;
+        -webkit-transform-style: preserve-3d;
+
+
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+
+          #{$ribbonPosition}: -$size/2;
+
+          border: $size solid darken($color,10%);
+          z-index: -1;
+          -webkit-transform: translateZ(-1px);
+        }
+
+        &:before {
+          left: -$size*2 + $size/2;
+          border-left-color: transparent;
+        }
+
+        &:after {
+          right: -$size*2 + $size/2;
+          border-right-color: transparent;
+        }
+
+        & span:before,
+        & span:after {
+          content: "";
+          position: absolute;
+          display: block;
+          border-style: solid;
+
+          #{$ribbonPosition}: -$size/2;
+
+          @if $ribbonPosition == bottom {
+            border-color: darken($color, 30%) transparent transparent transparent;
+          }
+          @else {
+            border-color: transparent transparent darken($color, 30%) transparent;
+          }
+
+        }
+
+        & span:before {
+          left: 0;
+
+          @if $ribbonPosition == bottom {
+            border-width: $size/2 0 0 $size/2;
+          }
+          @else {
+            border-width: 0 0 $size/2 $size/2;
+          }
+
+        }
+
+        & span:after {
+          right: 0;
+
+          @if $ribbonPosition == bottom {
+            border-width: $size/2 $size/2 0 0;
+          }
+          @else {
+             border-width: 0 $size/2 $size/2 0;
+          }
+        }
+      }
+	}
+
+	@mixin fromWidth($size) {
+		  @media screen and(min-width: $size) {
+			    @content;
+		  }
+	}
+
+	@mixin medium() {
+		  @include fromWidth($medium) {
+			    @content;
+		  }
+	}
+
+	@mixin large() {
+  @include fromWidth($large) {
+    @content;
+  }
+	}
+
+	// ANIMATION
+	@include keyframes(fadeIn) {
+  		0% { opacity: 0; }
+		  100% { @include prefixr(transform,translateY(0)); opacity: 1; }
+	}
+
+
+// DEFAULT STYLES
+
+.wrapper {
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  text-transform: uppercase;
+}
+
+.left,.right {
+  display: block;
+  padding: 100px;
+  border: 3px solid #2c3e50;
+  background: #95a5a6;
+  position: relative;
+  z-index: 1;
+  
+  @include medium {
+    display: inline-block;
+  }
+}
+
+.ribbonWrapper {
+  opacity: 0;
+  -webkit-animation: fadeIn .7s ease-in forwards;
+  animation: fadeIn .7s ease-in forwards;
+  font-size: 20px;
+  margin: 40px auto 40px;
+  width: 100%;
+  position: absolute;
+  left: 25%;
+  bottom: 0px;
+}
+
+.big {
+  @include ribbon(#e74c3c,white,15px);
+  
+  @include medium {
+    @include ribbon(#e74c3c,white,20px);
+    font-size: 22px;
+    }
+
+  @include large {
+      @include ribbon(#e74c3c,white,30px);
+      font-size: 25px;
+    }
+
+}
+
+.medium {
+  @include ribbon(#2ecc71, white, 10px);
+  font-size: 16px;
+  
+  @include medium {
+	    @include ribbon(#2ecc71,white,15px);
+	    font-size: 18px;
+	  }
+
+  @include large {
+    @include ribbon(#2ecc71,white,20px);
+    font-size: 20px;
+  }
+
+}
+
+.small {
+  @include ribbon(#1abc9c,white,5px);
+  font-size: 10px;
+
+  @include medium {
+    @include ribbon(#1abc9c,white,10px);
+    font-size: 12px;
+  }
+
+  @include large {
+    @include ribbon(#1abc9c,white,15px);
+    font-size: 14px;
+  }
+
+}
+
+.topBig {
+   @include ribbon(#9b59b6,white,15px, top);
+
+  @include medium {
+    @include ribbon(#9b59b6,white,20px,top);
+    font-size: 22px;
+  }
+
+  @include large {
+    @include ribbon(#9b59b6,white,30px,top);
+    font-size: 25px;
+  }
+
+}
+
+.topMedium {
+  @include ribbon(#34495e, white, 10px, top);
+  font-size: 16px;
+
+  @include medium {
+    @include ribbon(#34495e,white,15px,top);
+    font-size: 18px;
+  }
+
+  @include large {
+    @include ribbon(#34495e,white,20px,top);
+    font-size: 20px;
+  }
+
+}
+
+.topSmall {
+  @include ribbon(#e67e22,white,5px, top);
+  font-size: 10px;
+
+  @include medium {
+    @include ribbon(#e67e22,white,10px,top);
+    font-size: 12px;
+  }
+
+  @include large {
+    @include ribbon(#e67e22,white,15px,top);
+    font-size: 14px;
+  }
+
+}
